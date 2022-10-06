@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie/pages/widget/ListItem_widget.dart';
 import 'package:movie/theme.dart';
 import 'login_page.dart';
 import 'widget/Upcoming_widget.dart';
@@ -96,6 +97,35 @@ class HomeScreen extends StatelessWidget {
                 height: 30,
               ),
               UpcomingMovie(),
+              Container(
+                padding: EdgeInsets.symmetric(
+                  vertical: 16,
+                ),
+                height: MediaQuery.of(context).size.height *
+                    0.7, //ngambil nilai tinggi hp, diambil 70%
+                child: GridView.builder(
+                  itemCount: item.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2),
+                  itemBuilder: (context, index) => Container(
+                    child: Column(
+                      children: [
+                        Image.asset(item[index].gambar),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          item[index].nama,
+                          style: whiteTextStyle.copyWith(
+                            fontSize: 16,
+                            fontWeight: bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
