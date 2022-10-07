@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie/data/shared_pref.dart';
 import 'package:movie/pages/widget/ListItem_widget.dart';
 import 'package:movie/theme.dart';
 import 'login_page.dart';
@@ -9,6 +10,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String isDarkMode = SharedPref.pref.getString('ini darkmode') as String; //shrdpref belum string jdi diubah k string
     return Scaffold(
       backgroundColor: kDarkBackgroundColor,
       body: SingleChildScrollView(
@@ -102,7 +104,7 @@ class HomeScreen extends StatelessWidget {
                   vertical: 16,
                 ),
                 height: MediaQuery.of(context).size.height *
-                    0.7, //ngambil nilai tinggi hp, diambil 70%
+                    0.7, //ngambil nilai tinggi total hp, diambil 70%
                 child: GridView.builder(
                   itemCount: item.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

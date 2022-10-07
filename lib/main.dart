@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:movie/data/shared_pref.dart';
 import 'package:movie/theme.dart';
 import 'pages/Onboarding_page.dart';
 import 'pages/login_page.dart';
 import 'pages/Home_page.dart';
+import '';
 
-void main() => runApp(MyApp());
+Future<void> main() async {
+  runApp(const MyApp());
+  await SharedPref.init();
+}
+
+// void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

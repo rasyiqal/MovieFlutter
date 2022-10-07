@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie/data/shared_pref.dart';
 import 'package:movie/theme.dart';
 import 'package:movie/pages/Home_page.dart';
 
@@ -7,6 +8,7 @@ class Login_Page extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SharedPref.pref.setString('isDarkMode', 'ini darkmode');
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
