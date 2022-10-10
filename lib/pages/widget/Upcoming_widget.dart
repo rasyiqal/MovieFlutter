@@ -17,7 +17,7 @@ class UpcomingMovie extends StatelessWidget {
             children: [
               Text(
                 'Upcoming Movie',
-                style: whiteTextStyle.copyWith(
+                style: TextStyle(
                   fontSize: 20,
                   fontWeight: bold,
                 ),
@@ -32,7 +32,6 @@ class UpcomingMovie extends StatelessWidget {
             ],
           ),
         ),
-        
       ],
     );
   }

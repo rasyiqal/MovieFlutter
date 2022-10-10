@@ -5,14 +5,23 @@ import 'package:movie/theme.dart';
 import 'login_page.dart';
 import 'widget/Upcoming_widget.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  Function setTheme;
+  HomeScreen({Key? key, required this.setTheme}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool isDarkmode = SharedPref.pref?.getBool('isDarkmode') ?? false;
 
   @override
   Widget build(BuildContext context) {
-    String isDarkMode = SharedPref.pref.getString('ini darkmode') as String; //shrdpref belum string jdi diubah k string
+    // String isDarkMode = SharedPref.pref?.getString('ini darkmode') ??
+    //     "ini darkmode"; //shrdpref belum string jdi diubah k string
+    // print(isDarkMode);
     return Scaffold(
-      backgroundColor: kDarkBackgroundColor,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
@@ -29,7 +38,7 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         Text(
                           'Hello Fikri',
-                          style: whiteTextStyle.copyWith(
+                          style: TextStyle(
                             fontSize: 24,
                             fontWeight: bold,
                           ),
@@ -45,54 +54,54 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
-                      child: Image.asset(
-                        'assets/Items1.png',
-                        height: 60,
-                        width: 60,
+                    Container(
+                      child: IconButton(
+                        onPressed: () {
+                          isDarkmode = !isDarkmode;
+                          widget.setTheme(isDarkmode);
+                        },
+                        icon: Icon(Icons.light_mode),
                       ),
                     ),
                   ],
                 ),
               ),
-              Container(
-                height: 60,
-                padding: EdgeInsets.all(16),
-                margin: EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                  color: kBlackColor,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(
-                      Icons.search,
-                      color: kWhiteColor,
-                      size: 24,
-                    ),
-                    Container(
-                      width: 200,
-                      margin: EdgeInsets.only(
-                        left: 24,
+              Center(
+                child: Container(
+                  height: 60,
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                    border: Border.all(),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.search,
+                        size: 24,
                       ),
-                      child: TextFormField(
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: bold,
+                      Container(
+                        width: 200,
+                        margin: EdgeInsets.only(
+                          left: 24,
                         ),
-                        decoration: InputDecoration(
-                          hintText: 'Search',
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
+                        child: TextFormField(
+                          style: TextStyle(
                             fontSize: 16,
+                            fontWeight: bold,
                           ),
+                          decoration: InputDecoration(
+                              hintText: 'Search',
+                              hintStyle: TextStyle(
+                                fontSize: 16,
+                              ),
+                              enabledBorder: InputBorder.none,
+                              focusedBorder: InputBorder.none),
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               ),
               SizedBox(
@@ -118,7 +127,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                         Text(
                           item[index].nama,
-                          style: whiteTextStyle.copyWith(
+                          style: TextStyle(
                             fontSize: 16,
                             fontWeight: bold,
                           ),
@@ -135,39 +144,39 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Card cardku() {
-    return Card(
-      child: Column(
-        children: [
-          Container(
-            width: 370,
-            height: 320,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              image: DecorationImage(
-                  image: AssetImage('assets/bromo.png'),
-                  fit: BoxFit.fitWidth,
-                  alignment: Alignment.topCenter),
-            ),
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          Text(
-            'data',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: bold,
-            ),
-            textAlign: TextAlign.start,
-          ),
-          SizedBox(
-            height: 16,
-          )
-        ],
-      ),
-    );
-  }
+  // Card cardku() {
+  //   return Card(
+  //     child: Column(
+  //       children: [
+  //         Container(
+  //           width: 370,
+  //           height: 320,
+  //           decoration: BoxDecoration(
+  //             borderRadius: BorderRadius.circular(20),
+  //             image: DecorationImage(
+  //                 image: AssetImage('assets/bromo.png'),
+  //                 fit: BoxFit.fitWidth,
+  //                 alignment: Alignment.topCenter),
+  //           ),
+  //         ),
+  //         SizedBox(
+  //           height: 8,
+  //         ),
+  //         Text(
+  //           'data',
+  //           style: TextStyle(
+  //             fontSize: 24,
+  //             fontWeight: bold,
+  //           ),
+  //           textAlign: TextAlign.start,
+  //         ),
+  //         SizedBox(
+  //           height: 16,
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
 }
 
 //bikin icon appbar

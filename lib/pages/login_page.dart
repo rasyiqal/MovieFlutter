@@ -8,7 +8,7 @@ class Login_Page extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SharedPref.pref.setString('isDarkMode', 'ini darkmode');
+    SharedPref.pref?.setString('isDarkMode', 'ini darkmode');
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -74,24 +74,24 @@ class Login_Page extends StatelessWidget {
               ),
             ],
           ),
-          TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HomeScreen(),
-                ),
-              );
-            },
-            child: Text(
-              'Skip',
-              style: TextStyle(
-                color: Colors.amber,
-                fontSize: 16,
-                fontWeight: bold,
-              ),
-            ),
-          ),
+          // TextButton(
+          //   onPressed: () {
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //         builder: (context) => HomeScreen(setTheme: setTheme),
+          //       ),
+          //     );
+          //   },
+          //   child: Text(
+          //     'Skip',
+          //     style: TextStyle(
+          //       color: Colors.amber,
+          //       fontSize: 16,
+          //       fontWeight: bold,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
