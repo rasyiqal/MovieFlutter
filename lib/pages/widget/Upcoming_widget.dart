@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie/theme.dart';
+import 'package:movie/theme/theme.dart';
 
 class UpcomingMovie extends StatelessWidget {
   const UpcomingMovie({super.key});

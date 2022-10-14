@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:movie/data/shared_pref.dart';
-import 'package:movie/theme.dart';
+import 'package:movie/theme/theme.dart';
 import 'package:movie/pages/Home_page.dart';
 
 class Login_Page extends StatelessWidget {
-  const Login_Page({super.key});
+  Function setTheme;
+  Login_Page({Key? key, required this.setTheme}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,44 +13,46 @@ class Login_Page extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              backButton(context),
-              text(),
-              MailPass(),
-              SizedBox(
-                height: 150,
-              ),
-              Button(context),
-              Container(
-                margin: EdgeInsets.symmetric(
-                  horizontal: 24,
+          child: Center(
+            child: Column(
+              children: [
+                backButton(context),
+                text(),
+                MailPass(),
+                SizedBox(
+                  height: 75,
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Dont have any account ? ',
-                      style: blackAccentTextStyle.copyWith(
-                        fontSize: 16,
-                        fontWeight: bold,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        'Register',
+                Button(context),
+                Container(
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 24,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Dont have any account ? ',
                         style: TextStyle(
-                          color: Colors.amber,
                           fontSize: 16,
                           fontWeight: bold,
                         ),
                       ),
-                    ),
-                  ],
+                      TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'Register',
+                          style: TextStyle(
+                            color: Colors.amber,
+                            fontSize: 16,
+                            fontWeight: bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -74,24 +77,24 @@ class Login_Page extends StatelessWidget {
               ),
             ],
           ),
-          // TextButton(
-          //   onPressed: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //         builder: (context) => HomeScreen(setTheme: setTheme),
-          //       ),
-          //     );
-          //   },
-          //   child: Text(
-          //     'Skip',
-          //     style: TextStyle(
-          //       color: Colors.amber,
-          //       fontSize: 16,
-          //       fontWeight: bold,
-          //     ),
-          //   ),
-          // ),
+          TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomeScreen(setTheme: setTheme),
+                ),
+              );
+            },
+            child: Text(
+              'Skip',
+              style: TextStyle(
+                color: Colors.amber,
+                fontSize: 16,
+                fontWeight: bold,
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -110,7 +113,7 @@ class Login_Page extends StatelessWidget {
         children: [
           Text(
             'Welcome Back',
-            style: blackAccentTextStyle.copyWith(
+            style: TextStyle(
               fontSize: 24,
               fontWeight: bold,
             ),
@@ -143,7 +146,6 @@ class Login_Page extends StatelessWidget {
           Text(
             'Email',
             style: TextStyle(
-              color: Colors.black,
               fontSize: 16,
               fontWeight: bold,
             ),
@@ -172,7 +174,6 @@ class Login_Page extends StatelessWidget {
           Text(
             'Password',
             style: TextStyle(
-              color: Colors.black,
               fontSize: 16,
               fontWeight: bold,
             ),

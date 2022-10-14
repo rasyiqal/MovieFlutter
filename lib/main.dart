@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie/data/shared_pref.dart';
-import 'package:movie/theme.dart';
+import 'package:movie/theme/theme.dart';
 import 'pages/Onboarding_page.dart';
 import 'pages/login_page.dart';
 import 'pages/Home_page.dart';
@@ -43,8 +43,8 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       theme: themeData,
       routes: {
-        '/': (context) => Onboarding_Page(),
-        'login': (context) => Login_Page(),
+        '/': (context) => Onboarding_Page(setTheme: setTheme),
+        'login': (context) => Login_Page(setTheme: setTheme),
         'home': (context) => HomeScreen(setTheme: setTheme),
       },
     );

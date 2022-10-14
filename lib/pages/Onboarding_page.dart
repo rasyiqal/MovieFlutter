@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:movie/pages/Home_page.dart';
-import 'package:movie/theme.dart';
+import 'package:movie/theme/theme.dart';
 import 'package:movie/pages/login_page.dart';
 
 class Onboarding_Page extends StatelessWidget {
-  const Onboarding_Page({super.key});
+  Function setTheme;
+  Onboarding_Page({Key? key, required this.setTheme}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kDarkBackgroundColor,
       body: SafeArea(
         child: Center(
           child: Column(
@@ -86,7 +86,7 @@ class Onboarding_Page extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => Login_Page(),
+              builder: (context) => Login_Page(setTheme: setTheme),
             ),
           );
         },
