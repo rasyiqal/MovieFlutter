@@ -1,11 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:movie/data/shared_pref.dart';
+import 'package:movie/pages/api/DummyData.dart';
 import 'package:movie/theme/theme.dart';
 import 'package:movie/pages/Home_page.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class Login_Page extends StatelessWidget {
+class Login_Page extends StatefulWidget {
   Function setTheme;
   Login_Page({Key? key, required this.setTheme}) : super(key: key);
+
+  @override
+  State<Login_Page> createState() => _Login_PageState();
+}
+
+class _Login_PageState extends State<Login_Page> {
+  late FToast fToast;
+  final usernameController = TextEditingController(text: '');
+  final passwordController = TextEditingController(text: '');
+
+  bool isShowPassword = false;
+  bool isPasswordWrong = false;
+  bool isRememberMe = false;
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fToast = FToast();
+    fToast.init(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,20 +37,24 @@ class Login_Page extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 24,
+          ),
           child: Center(
             child: Column(
               children: [
                 backButton(context),
                 text(),
-                MailPass(),
+                usernameInput(),
+                passwordInput(),
                 SizedBox(
-                  height: 75,
+                  height: 80,
                 ),
                 Button(context),
                 Container(
                   margin: EdgeInsets.symmetric(
-                    horizontal: 24,
-                  ),
+                      // horizontal: 24,
+                      ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -34,7 +62,7 @@ class Login_Page extends StatelessWidget {
                         'Dont have any account ? ',
                         style: TextStyle(
                           fontSize: 16,
-                          fontWeight: bold,
+                          fontWeight: regular,
                         ),
                       ),
                       TextButton(
@@ -82,7 +110,7 @@ class Login_Page extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => HomeScreen(setTheme: setTheme),
+                  builder: (context) => HomeScreen(setTheme: widget.setTheme),
                 ),
               );
             },
@@ -103,8 +131,7 @@ class Login_Page extends StatelessWidget {
   Container text() {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(
-        horizontal: 24,
+      padding: const EdgeInsets.symmetric(
         vertical: 24,
       ),
       child: Column(
@@ -134,84 +161,99 @@ class Login_Page extends StatelessWidget {
     );
   }
 
-  Container MailPass() {
+  Widget usernameInput() {
     return Container(
-      padding: EdgeInsets.symmetric(
-        vertical: 24,
-        horizontal: 24,
+      height: 55,
+      margin: const EdgeInsets.only(
+        top: 48,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Email',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: bold,
-            ),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: kWhiteGreyColor,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: TextFormField(
+        controller: usernameController,
+        decoration: InputDecoration.collapsed(
+          hintText: 'Username',
+          hintStyle: greyTextStyle.copyWith(
+            fontSize: 16,
+            fontWeight: semiBold,
           ),
-          SizedBox(
-            height: 16,
-          ),
-          TextFormField(
-            initialValue: 'Email',
-            style: TextStyle(
-              color: Colors.grey,
-            ),
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(
-                horizontal: 24,
-                vertical: 24,
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 16,
-          ),
-          Text(
-            'Password',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: bold,
-            ),
-          ),
-          SizedBox(
-            height: 16,
-          ),
-          TextFormField(
-            initialValue: 'Password',
-            style: TextStyle(
-              color: Colors.grey,
-            ),
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(
-                horizontal: 24,
-                vertical: 24,
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
 
-  Container Button(context) {
+  Widget passwordInput() {
+    return Column(
+      children: [
+        Container(
+          height: 55,
+          margin: const EdgeInsets.only(
+            top: 24,
+          ),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: kWhiteGreyColor,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextFormField(
+                  obscureText: (isShowPassword) ? false : true,
+                  controller: passwordController,
+                  decoration: InputDecoration.collapsed(
+                    hintText: 'Password',
+                    hintStyle: greyTextStyle.copyWith(
+                      fontSize: 16,
+                      fontWeight: semiBold,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget Button(context) {
     return Container(
       width: double.infinity,
       height: 55,
-      padding: EdgeInsets.symmetric(
-        horizontal: 24,
-      ),
       child: TextButton(
         onPressed: () {
-          Future.delayed(const Duration(seconds: 2));
-          Navigator.pushReplacementNamed(context, 'home');
+          setState(() {
+            isLoading = true;
+          });
+
+          Future.delayed(const Duration(seconds: 2), () {
+            setState(() {
+              isLoading = false;
+            });
+            if (passwordController.text != 'admin' ||
+                usernameController.text != 'admin') {
+              setState(() {
+                isPasswordWrong = true;
+              });
+              fToast.showToast(
+                child: errorToast(),
+                toastDuration: const Duration(seconds: 2),
+                gravity: ToastGravity.BOTTOM,
+              );
+            } else {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomeScreen(setTheme: widget.setTheme),
+                  ),
+                  (route) => false);
+              isLogin = true;
+            }
+          });
         },
         child: Text(
           'Login',
@@ -227,6 +269,23 @@ class Login_Page extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget errorToast() {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: kRedColor,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Text(
+        'Username atau password Salah',
+        style: whiteTextStyle.copyWith(
+          fontSize: 16,
+          fontWeight: semiBold,
         ),
       ),
     );

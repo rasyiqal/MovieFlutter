@@ -55,7 +55,7 @@ class Onboarding_Page extends StatelessWidget {
         Container(
           child: Text(
             'All Your \nFavourite Ramen',
-            style: whiteGreyTextStyle.copyWith(
+            style: TextStyle(
               fontSize: 24,
               fontWeight: bold,
             ),
@@ -81,7 +81,7 @@ class Onboarding_Page extends StatelessWidget {
     return Container(
       width: 300,
       height: 45,
-      child: TextButton(
+      child: OutlinedButton(
         onPressed: () {
           Navigator.push(
             context,
@@ -97,15 +97,18 @@ class Onboarding_Page extends StatelessWidget {
             fontWeight: bold,
           ),
         ),
-        style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.black26),
-            shape: MaterialStateProperty.all(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                  30,
-                ),
-              ),
-            )),
+        style: OutlinedButton.styleFrom(
+          backgroundColor: Colors.amber,
+          shadowColor: Colors.grey,
+          elevation: 2,
+          side: BorderSide(
+            color: Colors.amber,
+            width: 2,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
       ),
     );
   }
@@ -118,10 +121,16 @@ class Onboarding_Page extends StatelessWidget {
         onPressed: () {
           Navigator.pushNamedAndRemoveUntil(context, 'home', (route) => false);
         },
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(kWhiteColor),
-          shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        style: OutlinedButton.styleFrom(
+          backgroundColor: kWhiteColor,
+          shadowColor: Colors.grey,
+          elevation: 2,
+          side: BorderSide(
+            color: Colors.grey,
+            width: 2,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
           ),
         ),
         child: Text(

@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
               UpcomingMovie(),
               Container(
                 padding: EdgeInsets.symmetric(
-                  vertical: 16,
+                  vertical: 32,
                 ),
                 height: MediaQuery.of(context).size.height *
                     0.7, //ngambil nilai tinggi total hp, diambil 70%
