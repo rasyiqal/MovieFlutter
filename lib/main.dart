@@ -4,6 +4,7 @@ import 'package:movie/theme/theme.dart';
 import 'pages/Onboarding_page.dart';
 import 'pages/login_page.dart';
 import 'pages/Home_page.dart';
+import 'pages/Welcoming_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized(); //
@@ -44,6 +45,7 @@ class _MyAppState extends State<MyApp> {
       theme: themeData,
       routes: {
         '/': (context) => Onboarding_Page(setTheme: setTheme),
+        'welcome':(context) => Welocome(setTheme: setTheme),
         'login': (context) => Login_Page(setTheme: setTheme),
         'home': (context) => HomeScreen(setTheme: setTheme),
       },

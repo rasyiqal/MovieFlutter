@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:movie/data/shared_pref.dart';
-import 'package:movie/pages/api/DummyData.dart';
+import 'package:movie/api/DummyData.dart';
 import 'package:movie/theme/theme.dart';
 import 'package:movie/pages/Home_page.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'Welcoming_page.dart';
 
 class Login_Page extends StatefulWidget {
   Function setTheme;
@@ -33,8 +34,45 @@ class _Login_PageState extends State<Login_Page> {
 
   @override
   Widget build(BuildContext context) {
-    SharedPref.pref?.setString('isDarkMode', 'ini darkmode');
+    
     return Scaffold(
+      appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 8),
+            child: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                Navigator.pop(context, '/');
+              },
+            ),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            HomeScreen(setTheme: widget.setTheme),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    'Skip',
+                    style: TextStyle(
+                      color: Colors.amber,
+                      fontSize: 16,
+                    ),
+                  )),
+            )
+          ]),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(
@@ -43,7 +81,9 @@ class _Login_PageState extends State<Login_Page> {
           child: Center(
             child: Column(
               children: [
-                backButton(context),
+                SizedBox(
+                  height: 40,
+                ),
                 text(),
                 usernameInput(),
                 passwordInput(),
@@ -83,47 +123,6 @@ class _Login_PageState extends State<Login_Page> {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Container backButton(context) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        vertical: 16,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          ButtonBar(
-            children: [
-              IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/');
-                },
-                icon: Icon(Icons.arrow_back),
-              ),
-            ],
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HomeScreen(setTheme: widget.setTheme),
-                ),
-              );
-            },
-            child: Text(
-              'Skip',
-              style: TextStyle(
-                color: Colors.amber,
-                fontSize: 16,
-                fontWeight: bold,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -248,7 +247,7 @@ class _Login_PageState extends State<Login_Page> {
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => HomeScreen(setTheme: widget.setTheme),
+                    builder: (context) => Welocome(setTheme: widget.setTheme),
                   ),
                   (route) => false);
               isLogin = true;
