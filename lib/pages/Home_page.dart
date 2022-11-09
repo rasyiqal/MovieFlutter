@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:movie/api/model.dart';
 import 'package:movie/data/shared_pref.dart';
-import 'package:movie/widget/ListItem_widget.dart';
-import 'package:movie/theme/theme.dart';
-import 'login_page.dart';
-import '../widget/Upcoming_widget.dart';
-import 'Page_1.dart';
-import 'package:movie/widget/Popular_item.dart';
+import 'package:movie/service/remote_service.dart';
+import 'SetTime_page.dart';
+
+Future<void> main() async {
+  /* WidgetFlutterBinding digunakan untuk berinteraksi dengan mesin Flutter.
+  SharedPref.init() perlu memanggil kode asli untuk menginisialisasi, oleh karena itu
+  perlu memanggil ensureInitialized() untuk memastikan terdapat instance yang bisa dijalankan */
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await SharedPref.init();
+  // runApp(const HomePage());
+}
 
 class HomeScreen extends StatefulWidget {
   Function setTheme;
@@ -16,222 +23,131 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  ThemeData themeData = ThemeData.light();
   bool isDarkmode = SharedPref.pref?.getBool('isDarkmode') ?? false;
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: Settings',
-      style: optionStyle,
-    ),
-  ];
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  RemoteService remoteService = RemoteService();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    remoteService.fecthDataUsers();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Halo'),
+        backgroundColor: Colors.blueGrey,
+        title: Text(
+          'Marvel Comics',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 24,
+          ),
+        ),
+        elevation: 0,
         actions: <Widget>[
           IconButton(
             onPressed: () {
-              isDarkmode = !isDarkmode;
-              widget.setTheme(isDarkmode);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SetTime(),
+                ),
+              );
             },
-            icon: Icon(Icons.light_mode),
+            icon: Icon(
+              Icons.timer,
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+              right: 16,
+            ),
+            child: GestureDetector(
+              child: IconButton(
+                onPressed: () {
+                  isDarkmode =
+                      !isDarkmode; /* logic untuk membalik sebuah nilai darkmode
+                  jika nilai awal true maka akan menjadi false
+                  dan jika nilai awal false maka akan menjadi true */
+                  widget.setTheme(isDarkmode);
+                },
+                icon: Icon(
+                  Icons.light_mode,
+                ),
+              ),
+            ),
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: SizedBox(
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 24,
-                    horizontal: 24,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  ),
-                ),
-                Center(
-                  child: Container(
-                    height: 60,
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    decoration: BoxDecoration(
-                      border: Border.all(),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.search,
-                          size: 24,
+      body: Container(
+        child: FutureBuilder<List<Ramen>>(
+          future: remoteService.fecthDataUsers(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              print(snapshot.data.toString());
+              List<Ramen> ramen = snapshot.data;
+              return ListView.builder(
+                  padding: EdgeInsets.all(10),
+                  itemCount: ramen.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          radius: 20,
+                          backgroundImage: NetworkImage(ramen[index].imgUrl),
                         ),
-                        Container(
-                          width: 200,
-                          margin: EdgeInsets.only(
-                            left: 24,
-                          ),
-                          child: TextFormField(
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: bold,
-                            ),
-                            decoration: InputDecoration(
-                                hintText: 'Search',
-                                hintStyle: TextStyle(
-                                  fontSize: 16,
-                                ),
-                                enabledBorder: InputBorder.none,
-                                focusedBorder: InputBorder.none),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                UpcomingMovie(),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 32,
-                  ),
-                  height: MediaQuery.of(context).size.height *
-                      0.7, //ngambil nilai tinggi total hp, diambil 70%
-                  child: GridView.builder(
-                    itemCount: item.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2),
-                    itemBuilder: (context, index) => Container(
-                      child: Column(
-                        children: [
-                          Image.asset(item[index].gambar),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            item[index].nama,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: bold,
-                            ),
-                          ),
-                        ],
+                        title: Text(ramen[index].productName +
+                            " " +
+                            ramen[index].price.toString()),
                       ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text(
-                'Movie EX-Studio',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-                leading: Icon(Icons.home),
-                title: const Text('HOME'),
-                onTap: () => print('Tap Trash menu')),
-            ListTile(
-              leading: Icon(
-                Icons.show_chart,
-              ),
-              title: const Text('Page_1'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Page1(
-                        setTheme: widget.setTheme,
-                      ),
-                    ));
-              },
-            ),
-            ListTile(
-                leading: Icon(Icons.timer),
-                title: const Text('My History'),
-                onTap: () {}),
-            new Divider(),
-            ListTile(
-              leading: Icon(Icons.exit_to_app),
-              trailing: new Icon(Icons.cancel),
-              title: const Text('LOGOUT'),
-              onTap: () {
-                Navigator.popAndPushNamed(context, 'login');
-              },
-            ),
-          ],
+                      onTap: () {},
+                    );
+                  });
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          },
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(
+              Icons.home,
+              color: Colors.blueGrey,
+            ),
             label: 'Home',
-            backgroundColor: Colors.blue,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
+            icon: Icon(
+              Icons.business,
+              color: Colors.blueGrey,
+            ),
             label: 'Business',
-            backgroundColor: Colors.blue,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
+            icon: Icon(
+              Icons.school,
+              color: Colors.blueGrey,
+            ),
             label: 'School',
-            backgroundColor: Colors.blue,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
+            icon: Icon(
+              Icons.settings,
+              color: Colors.blueGrey,
+            ),
             label: 'Settings',
-            backgroundColor: Colors.blue,
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black,
-        onTap: _onItemTapped,
+        selectedItemColor: Colors.blueGrey,
       ),
     );
   }
 }
-
-//bikin icon appbar
-// child; gesturdetc;ontap;child icon

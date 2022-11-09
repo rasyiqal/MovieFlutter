@@ -10,51 +10,50 @@ class Welocome extends StatefulWidget {
 
   @override
   State<Welocome> createState() => _WelocomeState();
-
 }
 
 class _WelocomeState extends State<Welocome> {
-  
-   @override
+  @override
   void initState() {
-     Timer(Duration(seconds: 3), () {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) => HomeScreen(setTheme: widget.setTheme),
-            ),
-            (route) => false);
-      });
+    Timer(Duration(seconds: 3), () {
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomeScreen(setTheme: widget.setTheme),
+          ),
+          (route) => false);
+    });
     super.initState();
   }
-  
+
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-      backgroundColor: kWhiteColor,
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              child: Text(
-                'Hello',
-                style: greyTextStyle.copyWith(
-                  fontSize: 24,
-                  fontWeight: regular,
+    return SingleChildScrollView(
+      child: Scaffold(
+        backgroundColor: kWhiteColor,
+        body: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                child: Text(
+                  'Hello',
+                  style: greyTextStyle.copyWith(
+                    fontSize: 24,
+                    fontWeight: regular,
+                  ),
                 ),
               ),
-            ),
-            Text(
-              'Rasyiqal Fikri',
-              style: greyTextStyle.copyWith(
-                fontSize: 40,
-                fontWeight: bold,
+              Text(
+                'Rasyiqal Fikri',
+                style: greyTextStyle.copyWith(
+                  fontSize: 40,
+                  fontWeight: bold,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

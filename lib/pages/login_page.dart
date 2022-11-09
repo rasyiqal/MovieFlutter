@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:movie/data/shared_pref.dart';
-import 'package:movie/api/DummyData.dart';
 import 'package:movie/theme/theme.dart';
 import 'package:movie/pages/Home_page.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -23,6 +21,7 @@ class _Login_PageState extends State<Login_Page> {
   bool isPasswordWrong = false;
   bool isRememberMe = false;
   bool isLoading = false;
+  bool isLogin = false;
 
   @override
   void initState() {

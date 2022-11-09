@@ -1,15 +1,18 @@
 List<Item> item = [
-  Item(nama: 'Soto Madura', gambar: 'assets/Items1.png'),
-  Item(nama: 'Soto Lamongan', gambar: 'assets/Items2.png'),
-  Item(nama: 'Soto Malang', gambar: 'assets/Items3.png'),
-  Item(nama: 'Soto Jepang', gambar: 'assets/Items4.png'),
-  Item(nama: 'Soto Madiun', gambar: 'assets/Items5.png'),
-  Item(nama: 'Soto Gresik', gambar: 'assets/Items6.png'),
+  Item(nama: 'Captain America', gambar: 'assets/Captain America.png'),
+  Item(nama: 'Deadpool', gambar: 'assets/Deadpool.png'),
+  Item(nama: 'Dr.Strange', gambar: 'assets/Dr.Strange.png'),
+  Item(nama: 'Loki', gambar: 'assets/Loki.png'),
+  Item(nama: 'Thor', gambar: 'assets/thor.png'),
+  Item(nama: 'Ragnarok', gambar: 'assets/ragnarok.png'),
 ];
 
 class Item {
   String nama;
   String gambar;
 
-  Item({required this.nama, required this.gambar});
+  Item({
+    required this.nama,
+    required this.gambar,
+  });
 }

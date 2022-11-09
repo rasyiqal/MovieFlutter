@@ -15,13 +15,16 @@ class Onboarding_Page extends StatelessWidget {
           child: Column(
             children: [
               iconTop(),
-              imgRamen(),
               SizedBox(
-                height: 24,
+                height: 42,
+              ),
+              imgComic(),
+              SizedBox(
+                height: 32,
               ),
               textDesc(),
               SizedBox(
-                height: 40,
+                height: 32,
               ),
               ButtonSignin(context),
               SizedBox(
@@ -37,16 +40,21 @@ class Onboarding_Page extends StatelessWidget {
 
   Container iconTop() {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        vertical: 24,
-      ),
+      // 
       margin: const EdgeInsets.only(top: 16),
-      child: Image.asset('assets/Logo.png'),
+      child: Image.asset(
+        'assets/Marvel.png',
+        height: 24,
+        width: 80,
+      ),
     );
   }
 
-  Image imgRamen() {
-    return Image.asset('assets/Splash_1.png');
+  Image imgComic() {
+    return Image.asset(
+      'assets/MVC.png',
+      height: 180,
+    );
   }
 
   Column textDesc() {
@@ -54,7 +62,7 @@ class Onboarding_Page extends StatelessWidget {
       children: [
         Container(
           child: Text(
-            'All Your \nFavourite Ramen',
+            'All Your \nFavourite Marvel Story',
             style: TextStyle(
               fontSize: 24,
               fontWeight: bold,
@@ -98,13 +106,9 @@ class Onboarding_Page extends StatelessWidget {
           ),
         ),
         style: OutlinedButton.styleFrom(
-          backgroundColor: Colors.amber,
+          backgroundColor: Colors.red,
           shadowColor: Colors.grey,
           elevation: 2,
-          side: BorderSide(
-            color: Colors.amber,
-            width: 2,
-          ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
           ),
