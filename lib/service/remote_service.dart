@@ -10,8 +10,8 @@ class RemoteService {
     var result = await http.get(Uri.parse(apiUrl));
     List<dynamic> listJson = json.decode(result.body)["data"];
     // print(listJson);
-    print(listJson.map((e) => Ramen.fromJson(e)).toList().toString());
-    // print(listJson);
+    // print(listJson.map((e) => Ramen.fromJson(e)).toList().toString());
+
     return listJson.map((e) => Ramen.fromJson(e)).toList();
   }
 }

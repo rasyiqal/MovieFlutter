@@ -1,8 +1,11 @@
+import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:movie/api/model.dart';
 import 'package:movie/data/shared_pref.dart';
 import 'package:movie/service/remote_service.dart';
+import 'package:movie/theme/theme.dart';
 import 'SetTime_page.dart';
+import 'package:image_card/image_card.dart';
 
 Future<void> main() async {
   /* WidgetFlutterBinding digunakan untuk berinteraksi dengan mesin Flutter.
@@ -42,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
         title: Text(
-          'Marvel Comics',
+          'My Ramene',
           style: TextStyle(
             color: Colors.white,
             fontSize: 24,
@@ -60,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             },
             icon: Icon(
-              Icons.timer,
+              Icons.alarm,
             ),
           ),
           Padding(
@@ -92,20 +95,63 @@ class _HomeScreenState extends State<HomeScreen> {
               print(snapshot.data.toString());
               List<Ramen> ramen = snapshot.data;
               return ListView.builder(
-                  padding: EdgeInsets.all(10),
                   itemCount: ramen.length,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          radius: 20,
-                          backgroundImage: NetworkImage(ramen[index].imgUrl),
+                      child: Card(
+                        margin: EdgeInsets.only(
+                          top: 8,
+                          right: 8,
+                          left: 8,
+                          bottom: 110,
                         ),
-                        title: Text(ramen[index].productName +
-                            " " +
-                            ramen[index].price.toString()),
+                        elevation: 6.0,
+                        child: Column(
+                          children: [
+                            ListTile(
+                              title: Text(
+                                ramen[index].productName,
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 16,
+                                  fontWeight: bold,
+                                ),
+                              ),
+                              subtitle: Text(
+                                ramen[index].price.toString(),
+                                style: greyTextStyle.copyWith(
+                                  fontSize: 14,
+                                  fontWeight: bold,
+                                ),
+                              ),
+                              trailing: Icon(Icons.favorite_outline),
+                            ),
+                            Container(
+                              height: 200.0,
+                              child: Ink.image(
+                                image: NetworkImage(ramen[index].imgUrl),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(16.0),
+                              alignment: Alignment.centerLeft,
+                              child: Text(ramen[index].description),
+                            ),
+                            ButtonBar(
+                              children: [
+                                TextButton(
+                                  child: const Text('DETAIL'),
+                                  onPressed: () {/* ... */},
+                                ),
+                                TextButton(
+                                  child: const Text('BUY'),
+                                  onPressed: () {/* ... */},
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                      onTap: () {},
                     );
                   });
             } else {
@@ -125,14 +171,14 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.business,
+              Icons.food_bank,
               color: Colors.blueGrey,
             ),
             label: 'Business',
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.school,
+              Icons.add_chart,
               color: Colors.blueGrey,
             ),
             label: 'School',
@@ -147,6 +193,51 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.blueGrey,
+      ),
+    );
+  }
+
+  Card _CardWidget() {
+    return Card(
+      margin: EdgeInsets.only(
+        top: 8,
+        right: 8,
+        left: 8,
+        bottom: 110,
+      ),
+      elevation: 6.0,
+      child: Column(
+        children: [
+          ListTile(
+            title: Text('heading'),
+            subtitle: Text('data'),
+            trailing: Icon(Icons.favorite_outline),
+          ),
+          Container(
+            height: 200.0,
+            child: Ink.image(
+              image: AssetImage('assets/bromo.png'),
+              fit: BoxFit.cover,
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.all(16.0),
+            alignment: Alignment.centerLeft,
+            child: Text('supportingText'),
+          ),
+          ButtonBar(
+            children: [
+              TextButton(
+                child: const Text('CONTACT AGENT'),
+                onPressed: () {/* ... */},
+              ),
+              TextButton(
+                child: const Text('LEARN MORE'),
+                onPressed: () {/* ... */},
+              )
+            ],
+          ),
+        ],
       ),
     );
   }
